@@ -1,0 +1,16 @@
+pymoo
+notebook
+pandas
+seaborn
+xlwt
+openpyxl
+xlrd
+SQLAlchemy
+psycopg2-binary
+ydata-profiling
+ipykernel
+
+matplotlib
+lxml
+patsy
+django
