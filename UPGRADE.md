@@ -15,10 +15,9 @@ Briefly describe the purpose of this file: tracking local modifications to boile
 ## Table of Contents
 
 - [General Upgrade Notes](#general-upgrade-notes)
-- [Template Overrides & Customizations](#template-overrides--customizations)
-    - [templates/teams/components/team_invitations.html](#templatesteamscomponentsteaminvitationshtml)
-    - [templates/teams/list_teams.html](#templatesteamslist_teamshtml)
-    - [templates/teams/manage_team.html](#templatesteamsmanage_teamhtml)
+- [Template Override](#template-override)
+    - [templates/teams/components/team_invitations.html](#templatesteamscomponentsteam_invitationshtml)
+    - [templates/teams/team_membership_details.html](#templatesteamsteam_membership_detailshtml)
     - [templates/web/base.html](#templateswebbasehtml)
     - [templates/web/app/app_base.html](#templateswebappapp_basehtml)
     - [templates/web/app_home.html](#templateswebapp_homehtml)
@@ -27,6 +26,9 @@ Briefly describe the purpose of this file: tracking local modifications to boile
     - [templates/web/components/messages.html](#templateswebcomponentsmessageshtml)
     - [templates/web/components/team_nav.html](#templateswebcomponentsteam_navhtml)
     - [templates/web/components/top_nav.html](#templateswebcomponentstop_navhtml)
+- [## Custom Template](#custom-template)
+    - [templates/teams/list_teams.html](#templatesteamslist_teamshtml)
+    - [templates/teams/manage_team.html](#templatesteamsmanage_teamhtml)    
 - [Merge Conflict History](#merge-conflict-history)
 - [Upgrade Checklist](#upgrade-checklist)
 - [References & Resources](#references--resources)
@@ -46,7 +48,7 @@ This project uses a vendor boilerplate (SaaS Pegasus) as a foundation. Local cus
 
 ---
 
-## Template Overrides & Customizations
+## Template Override
 
 ### templates/teams/components/team_invitations.html
 
@@ -59,43 +61,17 @@ This project uses a vendor boilerplate (SaaS Pegasus) as a foundation. Local cus
 - **Merge Resolution Notes:**  
   - Retained local conditional logic to enforce subscription/user limits and provide upgrade prompt via modal.
 
----
 
-### templates/teams/list_teams.html
-
-- **Local Changes:**  
-  - Added a "License" column to the teams table, showing a key icon with a tooltip for Paddle subscription or demo plan name.
-  - Changed "Add Team" button logic:
-    - If `user_has_unlimited_subscription`, show regular button to create a team.
-    - Else, show button that opens a license modal (`#licenseModal`).
-  - Included `{% block additional %}` to render the license modal partial.
-  - Minor: Changed button container class from `my-2` to `mt-2`.
-- **Vendor Changes (since last upgrade):**  
-  - No license column; only "Name" and action columns.
-  - "Add Team" button always allows direct team creation.
-  - No modal logic or license modal included.
-- **Merge Resolution Notes:**  
-  - Retained local logic to display license status and restrict team creation based on subscription.
-  - Ensured license modal is available for users who hit the team creation limit.
 
 ---
 
-### templates/teams/manage_team.html
+### templates/teams/team_membership_details.html
 
 - **Local Changes:**  
-  - Added team logo upload and preview functionality, including avatar display and upload button (with tooltip and JS for preview/upload).
-  - Added a "License" section with a form to apply or update the team's Paddle subscription.
-  - Rendered form fields for team name, slug, and (hidden) Paddle subscription.
-  - Included `{% block additional %}` to render a license modal partial.
-  - Added custom JS for handling logo uploads.
-  - Minor layout changes: used columns for logo and details, kept consistent classes/IDs.
+  - Add class="app-card" for styling.
 - **Vendor Changes (since last upgrade):**  
-  - No logo upload or preview feature.
-  - No "License" section or Paddle subscription form.
-  - Only renders basic team details and members, with invitation and delete modal for admins.
-- **Merge Resolution Notes:**  
-  - Retained all local enhancements for logo upload, license management, and improved layout.
-  - Ensured vendor features (team details, members, invitations, danger zone) remain functional and integrated with new features.
+
+- **Merge Resolution Notes:**
 
 ---
 
@@ -261,6 +237,52 @@ This project uses a vendor boilerplate (SaaS Pegasus) as a foundation. Local cus
 
 
 ---
+
+## Custom Template
+
+
+### templates/teams/list_teams.html
+### => templates/teams/list_teams_schantt.html
+
+- **Local Changes:**  
+  - Added a "License" column to the teams table, showing a key icon with a tooltip for Paddle subscription or demo plan name.
+  - Changed "Add Team" button logic:
+    - If `user_has_unlimited_subscription`, show regular button to create a team.
+    - Else, show button that opens a license modal (`#licenseModal`).
+  - Included `{% block additional %}` to render the license modal partial.
+  - Minor: Changed button container class from `my-2` to `mt-2`.
+- **Vendor Changes (since last upgrade):**  
+  - No license column; only "Name" and action columns.
+  - "Add Team" button always allows direct team creation.
+  - No modal logic or license modal included.
+- **Merge Resolution Notes:**  
+  - Retained local logic to display license status and restrict team creation based on subscription.
+  - Ensured license modal is available for users who hit the team creation limit.
+  - Update correct template in teams/views/manage_team_views.py
+
+---
+
+### templates/teams/manage_team.html
+### => templates/teams/manage_team_schantt.html
+
+- **Local Changes:**  
+  - Added team logo upload and preview functionality, including avatar display and upload button (with tooltip and JS for preview/upload).
+  - Added a "License" section with a form to apply or update the team's Paddle subscription.
+  - Rendered form fields for team name, slug, and (hidden) Paddle subscription.
+  - Included `{% block additional %}` to render a license modal partial.
+  - Added custom JS for handling logo uploads.
+  - Minor layout changes: used columns for logo and details, kept consistent classes/IDs.
+- **Vendor Changes (since last upgrade):**  
+  - No logo upload or preview feature.
+  - No "License" section or Paddle subscription form.
+  - Only renders basic team details and members, with invitation and delete modal for admins.
+- **Merge Resolution Notes:**  
+  - Retained all local enhancements for logo upload, license management, and improved layout.
+  - Ensured vendor features (team details, members, invitations, danger zone) remain functional and integrated with new features.
+  - Update correct template in teams/views/manage_team_views.py
+
+---
+
 
 ## Merge Conflict History
 
